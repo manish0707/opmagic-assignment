@@ -19,13 +19,19 @@ export default class Signup extends Component {
 
     onSubmithHandle(evt) {
         evt.preventDefault();
-        axios.post("http://3.6.20.4/signup/", 
-        {email : this.state.email, 
-        password : this.state.password,
-        designation : this.state.designation,
-        organisation : this.state.organisation
-    }).then(response => {
+        let formData = new FormData();
+        formData.append('email', this.state.email);
+        formData.append('password', this.state.password);
+        formData.append('designation', this.state.designation);
+        formData.append('organization', this.state.organisation);
+
+        const config = {     
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        axios.post("http://3.6.20.4/signup/", formData, config).then(response => {
             console.log(response);
+            this.setState({email : "", password : "", organisation : "", designation : "", confirmPassword : ""});
         }).catch(error => {
             console.log(error);
         })
@@ -40,23 +46,23 @@ export default class Signup extends Component {
                     </div>
                     <div>
                         <label>Email</label>
-                        <input type="text" onChange={this.onchangeHandle} name="email" />
+                        <input type="email" onChange={this.onchangeHandle} value={this.state.email} name="email" />
                     </div>
                     <div>
                         <label>Designation</label>
-                        <input type="text" onChange={this.onchangeHandle} name="designation" />
+                        <input type="text" onChange={this.onchangeHandle} value={this.state.designation} name="designation" />
                     </div>
                     <div>
                         <label>Organisation</label>
-                        <input type="text" onChange={this.onchangeHandle} name="organisation" />
+                        <input type="text" onChange={this.onchangeHandle} value={this.state.organisation} name="organisation" />
                     </div>
                     <div>
                         <label>Password</label>
-                        <input type="password" onChange={this.onchangeHandle} name="password" />
+                        <input type="password" onChange={this.onchangeHandle} value={this.state.password} name="password" />
                     </div>
                     <div>
                         <label>Confirm Password</label>
-                        <input type="password" onChange={this.onchangeHandle} name="confirmPassword" />
+                        <input type="password" onChange={this.onchangeHandle} value={this.state.confirmPassword} name="confirmPassword" />
                     </div>
                     <div>
                         <input type="submit" />
